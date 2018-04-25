@@ -1,0 +1,88 @@
+ int trigPin = 6;
+ int echoPin = 7;
+long duration;
+int distance;
+
+ int trigPin1 = 8;
+ int echoPin1= 9;
+long duration1;
+int distance1;
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("Ultrasonic dist.");
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600);
+
+  pinMode(10,OUTPUT);
+  pinMode(13,OUTPUT);
+  pinMode(A0,OUTPUT);
+  pinMode(A1,OUTPUT);
+}
+
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance= duration*0.034/2;
+  
+  lcd.setCursor(0, 1);
+  lcd.print(" ");
+  lcd.print(distance);
+  lcd.print(" ");
+  Serial.print(distance);
+  if(distance<10)
+  {
+    digitalWrite(10,HIGH);
+    analogWrite(A0,255);
+    delay(300);
+    digitalWrite(10,LOW);
+    analogWrite(A0,0);
+    delay(300);
+  }
+  
+
+  digitalWrite(trigPin1, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(trigPin1, HIGH);
+  delayMicroseconds(10);
+  
+  digitalWrite(trigPin1, LOW);
+  duration1 = pulseIn(echoPin1, HIGH);
+  distance1= duration1*0.034/2;
+  
+  lcd.setCursor(8, 1);
+  lcd.print(" ");
+  lcd.print(distance1);
+  lcd.print(" ");
+  lcd.print(" ");
+  lcd.print(" ");
+  Serial.print(distance1);
+
+  if(distance1<10)
+  {
+    digitalWrite(13,HIGH);
+    analogWrite(A1,255);
+    delay(300);
+    digitalWrite(13,LOW);
+    analogWrite(A1,0);
+    delay(300);
+  }
+
+}
+ 
